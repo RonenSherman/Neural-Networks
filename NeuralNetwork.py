@@ -3,12 +3,8 @@ import numpy as np
 
 # need to add weights then learning, then layers
 
-"""
- Simple perceptron
- x: input vector
- weights: weight vector
- bias: bias term
- dot product is wrapped in a sigmoid function to give range of output values
+""" 
+ simple sigmoid neuron 
 """
 
 
