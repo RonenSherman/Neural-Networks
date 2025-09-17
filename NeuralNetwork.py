@@ -1,4 +1,4 @@
- import numpy as np
+import numpy as np
 
 class SigmoidNeuron:
     def __init__(self, x, weights, bias, learning_rate=0.1):
