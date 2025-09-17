@@ -1,47 +1,43 @@
 import numpy as np
 
-
-# need to add weights then learning, then layers
-
-""" 
- simple sigmoid neuron 
-"""
-
-
 class SigmoidNeuron:
+    def __init__(self, x, weights, bias, learning_rate=0.1):
+        self.x = np.array(x)
+        self.weights = np.array(weights, dtype=float)
+        self.bias = float(bias)
+        self.learning_rate = learning_rate
 
-    def __init__(self, x, weights, bias):
-        # Initialization code
-        self.x = x
-        self.weights = weights
-        self.bias = bias
+    def output_function(self):
+        linear_output = np.dot(self.x, self.weights) + self.bias
+        return 1 / (1 + np.exp(-linear_output))  # sigmoid activation
 
+    def cost(self, y_true):
+        """Mean Squared Error"""
+        y_prediction = self.output_function()
+        return 0.5 * (y_true - y_prediction) ** 2
 
-    def outputfunction(self):
-        linear_output = np.dot(x, weights) + bias
-        return 1 / (1 + np.exp(-linear_output))
-        #return 1 if linear_output >= 0 else 0
+    def train_step(self, y_true):
+        """
+        One step of training using gradient descent.
+        """
+        # Forward pass
+        y_prediction = self.output_function()
 
+        # Compute error derivative w.r.t prediction (MSE derivative)
+        error = y_prediction - y_true
 
+        # Derivative of sigmoid w.r.t linear output
+        sigmoid_derivative = y_prediction * (1 - y_prediction)
 
+        # Gradient of cost w.r.t linear output
+        d_cost_d_linear = error * sigmoid_derivative
 
-# Test Code
-x = np.array([0.5, 0.04])       # input
-weights = np.array([-2, -2])
-bias = 3
+        # Gradients w.r.t weights and bias
+        d_weights = self.x * d_cost_d_linear
+        d_bias = d_cost_d_linear
 
-# make a 8x8 grid of neurons
-Layer = [[SigmoidNeuron(x, weights, bias) for i in range(8)] for j in range(8)]
+        # Update weights and bias
+        self.weights -= self.learning_rate * d_weights
+        self.bias -= self.learning_rate * d_bias
 
-# loop through rows and columns
-for i in range(8):
-    print("\n")
-    for j in range(8):
-        output = Layer[i][j].outputfunction()
-        print(round(output, 2) , end=' ')
-
-
-
-#Sigmoid = SigmoidNeuron(x, weights, bias)
-#output = Sigmoid.outputfunction()
-#print("Output:", output)
+        return y_prediction, self.cost(y_true)
