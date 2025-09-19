@@ -61,19 +61,19 @@ class Matrix:
                         result_data[i][j] += self.data[i][k] * other.data[k][j]
             return Matrix(result_data)
         else:
-            raise TypeError("the type is wrong")
+            raise TypeError("Type Error")
 
 
 
 
-# Example usage:
-matrix_a = Matrix([[1, 2], [3, 4]])
-matrix_b = Matrix([[5, 6], [7, 8]])
+# Testing Testing
+#matrix_a = Matrix([[1, 2], [3, 4]])
+#matrix_b = Matrix([[5, 6], [7, 8]])
 
-print("Matrix A:")
-print(matrix_a)
+#print("Matrix A:")
+#print(matrix_a)
 
-print("\nMatrix B:")
-print(matrix_b)
+#print("\nMatrix B:")
+#print(matrix_b)
 
 
