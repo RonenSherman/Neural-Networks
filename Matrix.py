@@ -2,7 +2,8 @@ class Matrix:
     def __init__(self, data):
         """
          Matrix class without  WIP
-        using - list of lists
+        using list of lists
+        fixed missing functions
         """
         if not all(isinstance(row, list) for row in data):
             raise ValueError("Matrix must be a list of lists.")
@@ -17,7 +18,7 @@ class Matrix:
         if not all(len(row) == self.cols for row in data):
             raise ValueError("All rows in the matrix must have the same number of columns.")
 
-        self.data = [list(row) for row in data]  # Create a copy to avoid mutation issues
+        self.data = [list(row) for row in data]  # mutation issue fixer
 
     def __str__(self):
         """
@@ -63,17 +64,28 @@ class Matrix:
         else:
             raise TypeError("Type Error")
 
+    # ---------------- Operator overloads ----------------
+    def __add__(self, other):
+        if isinstance(other, Matrix):
+            return self.addition(other)
+        elif isinstance(other, (int, float)):  # scalar addition
+            result_data = [[self.data[r][c] + other for c in range(self.cols)] for r in range(self.rows)]
+            return Matrix(result_data)
+        else:
+            raise TypeError("Unsupported type for addition")
 
+    def __sub__(self, other):
+        if isinstance(other, Matrix):
+            result_data = [[self.data[r][c] - other.data[r][c] for c in range(self.cols)] for r in range(self.rows)]
+            return Matrix(result_data)
+        elif isinstance(other, (int, float)):  # scalar subtraction
+            result_data = [[self.data[r][c] - other for c in range(self.cols)] for r in range(self.rows)]
+            return Matrix(result_data)
+        else:
+            raise TypeError("Unsupported type for subtraction")
 
+    def __mul__(self, other):
+        return self.multiplication(other)  # delegate to multiplication()
 
-# Testing Testing
-#matrix_a = Matrix([[1, 2], [3, 4]])
-#matrix_b = Matrix([[5, 6], [7, 8]])
-
-#print("Matrix A:")
-#print(matrix_a)
-
-#print("\nMatrix B:")
-#print(matrix_b)
-
-
+    def __rmul__(self, other):
+        return self.multiplication(other)  # scalar * Matrix support

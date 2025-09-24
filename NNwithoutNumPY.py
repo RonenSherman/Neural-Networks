@@ -1,8 +1,8 @@
-from numpy.random import exponential
-
+import math
 from Matrix import Matrix
 
 """NN attempt without NumPY"""
+# fixed issues with matrix implement
 
 class SigmoidNeuron:
     def __init__(self, x, weights, bias, learning_rate=0.1):
@@ -13,7 +13,7 @@ class SigmoidNeuron:
 
     def output_function(self):
         linear_output = Matrix.multiplication(self.x, self.weights) + self.bias
-        return 1 / (1 + exponential(-linear_output))  # sigmoid activation
+        return 1 / (1 + math.exp(-linear_output))  # sigmoid activation
 
     def cost(self, y_true):
         """Mean Squared Error"""
@@ -46,4 +46,8 @@ class SigmoidNeuron:
 
         return y_prediction, self.cost(y_true)
 
-
+class Network:
+    def __init__(self, input_size, hidden_size, output_size):
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.output_size = output_size
