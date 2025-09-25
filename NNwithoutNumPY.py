@@ -3,6 +3,7 @@ from Matrix import Matrix
 
 """NN attempt without NumPY"""
 
+
 class SigmoidNeuron:
     def __init__(self, x, weights, bias, learning_rate=0.1):
         self.x = Matrix([x]) if isinstance(x[0], (int, float)) else Matrix(x)
@@ -33,6 +34,7 @@ class SigmoidNeuron:
 
         return y_prediction, self.cost(y_true)
 
+
 class Network:
     def __init__(self, input_size, hidden_size, output_size):
         self.input_size = input_size
@@ -42,7 +44,7 @@ class Network:
         # Input layer → Hidden layer
         self.hidden_layer = [
             SigmoidNeuron(
-                x=[0] * self.input_size,                 # placeholder input vector
+                x=[0] * self.input_size,  #  input layer
                 weights=[[0] for _ in range(self.input_size)],  # weight column for each input
                 bias=0.0
             )
@@ -52,14 +54,12 @@ class Network:
         # Hidden layer → Output layer
         self.output_layer = [
             SigmoidNeuron(
-                x=[0] * self.hidden_size,                # placeholder hidden vector
-                weights=[[0] for _ in range(self.hidden_size)], # weight column for each hidden node
+                x=[0] * self.hidden_size,  #  hidden layer
+                weights=[[0] for _ in range(self.hidden_size)],  # weight column for each hidden node
                 bias=0.0
             )
             for _ in range(self.output_size)
         ]
 
 
-
-NN = Network(3,5,3)
-print(NN.hidden_layer[0].bias)
+NN = Network(784, 15, 10)
