@@ -1,7 +1,7 @@
 class Matrix:
     def __init__(self, data):
         """
-         Matrix class without  WIP
+         Matrix class without     WIP
         using list of lists
         fixed missing functions
         """
@@ -89,3 +89,8 @@ class Matrix:
 
     def __rmul__(self, other):
         return self.multiplication(other)  # scalar * Matrix support
+
+
+#matrix_a = Matrix([[1, 2], [3, 4]])
+
+#print(matrix_a)

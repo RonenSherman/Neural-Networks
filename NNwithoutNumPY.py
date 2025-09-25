@@ -58,3 +58,8 @@ class Network:
             )
             for _ in range(self.output_size)
         ]
+
+
+
+NN = Network(3,5,3)
+print(NN.hidden_layer[0].bias)
