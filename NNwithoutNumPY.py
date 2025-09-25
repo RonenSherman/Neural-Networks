@@ -2,45 +2,32 @@ import math
 from Matrix import Matrix
 
 """NN attempt without NumPY"""
-# fixed issues with matrix implement
 
 class SigmoidNeuron:
     def __init__(self, x, weights, bias, learning_rate=0.1):
-        self.x = Matrix(x)
+        self.x = Matrix([x]) if isinstance(x[0], (int, float)) else Matrix(x)
         self.weights = Matrix(weights)
         self.bias = float(bias)
         self.learning_rate = learning_rate
 
     def output_function(self):
-        linear_output = Matrix.multiplication(self.x, self.weights) + self.bias
-        return 1 / (1 + math.exp(-linear_output))  # sigmoid activation
+        # matrix product -> scalar
+        linear_output = Matrix.multiplication(self.x, self.weights).data[0][0] + self.bias
+        return 1 / (1 + math.exp(-linear_output))  # sigmoid
 
     def cost(self, y_true):
-        """Mean Squared Error"""
         y_prediction = self.output_function()
         return 0.5 * (y_true - y_prediction) ** 2
 
     def train_step(self, y_true):
-        """
-        One step of training using gradient descent.
-        """
-        # Forward pass
         y_prediction = self.output_function()
-
-        # Compute error derivative w.r.t prediction (MSE derivative)
         error = y_prediction - y_true
-
-        # Derivative of sigmoid w.r.t linear output
         sigmoid_derivative = y_prediction * (1 - y_prediction)
-
-        # Gradient of cost w.r.t linear output
         d_cost_d_linear = error * sigmoid_derivative
 
-        # Gradients w.r.t weights and bias
         d_weights = self.x * d_cost_d_linear
         d_bias = d_cost_d_linear
 
-        # Update weights and bias
         self.weights -= self.learning_rate * d_weights
         self.bias -= self.learning_rate * d_bias
 
@@ -51,3 +38,23 @@ class Network:
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
+
+        # Input layer → Hidden layer
+        self.hidden_layer = [
+            SigmoidNeuron(
+                x=[0] * self.input_size,                 # placeholder input vector
+                weights=[[0] for _ in range(self.input_size)],  # weight column for each input
+                bias=0.0
+            )
+            for _ in range(self.hidden_size)
+        ]
+
+        # Hidden layer → Output layer
+        self.output_layer = [
+            SigmoidNeuron(
+                x=[0] * self.hidden_size,                # placeholder hidden vector
+                weights=[[0] for _ in range(self.hidden_size)], # weight column for each hidden node
+                bias=0.0
+            )
+            for _ in range(self.output_size)
+        ]
