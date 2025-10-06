@@ -1,5 +1,7 @@
 import math
+import random
 from Matrix import Matrix
+from tensorflow.keras.datasets import mnist
 
 """NN attempt without NumPY"""
 
@@ -44,9 +46,10 @@ class Network:
         # Input layer → Hidden layer
         self.hidden_layer = [
             SigmoidNeuron(
-                x=[0] * self.input_size,  #  input layer
-                weights=[[0] for _ in range(self.input_size)],  # weight column for each input
-                bias=0.0
+                x=[0] * self.input_size,  # input layer
+                # random small weights instead of zeros
+                weights=[[random.uniform(-0.5, 0.5)] for _ in range(self.input_size)],
+                bias=random.uniform(-0.5, 0.5)
             )
             for _ in range(self.hidden_size)
         ]
@@ -54,12 +57,50 @@ class Network:
         # Hidden layer → Output layer
         self.output_layer = [
             SigmoidNeuron(
-                x=[0] * self.hidden_size,  #  hidden layer
-                weights=[[0] for _ in range(self.hidden_size)],  # weight column for each hidden node
-                bias=0.0
+                x=[0] * self.hidden_size,  # hidden layer
+                # random small weights instead of zeros
+                weights=[[random.uniform(-0.5, 0.5)] for _ in range(self.hidden_size)],
+                bias=random.uniform(-0.5, 0.5)
             )
             for _ in range(self.output_size)
         ]
 
+    def forward(self, input_vector):
+        """ Forward pass: input → hidden → output"""
+
+        # Feed inputs into hidden layer neurons
+        hidden_outputs = []
+        for neuron in self.hidden_layer:
+            neuron.x = Matrix([input_vector])  # update input
+            hidden_outputs.append(neuron.output_function())
+
+        #  Feed hidden outputs into output layer neurons
+        final_outputs = []
+        for neuron in self.output_layer:
+            neuron.x = Matrix([hidden_outputs])  # update input
+            final_outputs.append(neuron.output_function())
+
+        return final_outputs
+
+
+# Load the MNIST dataset
+(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+
+# Flatten images 28x28 → 784 and normalize to [0,1]
+X_train = X_train.reshape(-1, 784) / 255.0
+X_test = X_test.reshape(-1, 784) / 255.0
 
 NN = Network(784, 15, 10)
+
+# Create the network
+
+# Quick evaluation on test set (random weights → ~10% accuracy)
+correct = 0
+for i in range(1000):  # test of first 1000 samples
+    output = NN.forward(list(X_test[i]))
+    prediction = output.index(max(output))  # argmax of outputs
+    if prediction == Y_test[i]:
+        correct += 1
+
+accuracy = (correct / 1000) * 100
+print("Accuracy with random weights (≈10% expected):", accuracy , " %")
