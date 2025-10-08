@@ -1,6 +1,4 @@
 # Neural-Networks
-Repository for Game and App development project 1? Neural Networks
+Repository for Game and App development for Mr. Miyoshi with fpcus on Neural Networks
 
-Project ideas: Handwriting/ number recognizer
-
-this is hard...
+Project 1: Handwritten digit recognizer using MNIST dataset
