@@ -1,7 +1,8 @@
 class Matrix:
     def __init__(self, data):
         """
-         Matrix class without     WIP
+        WIP
+         Matrix class without
         using list of lists
         fixed missing functions
         """
@@ -38,6 +39,11 @@ class Matrix:
             new_row = [self.data[r][c] + other.data[r][c] for c in range(self.cols)]
             result_data.append(new_row)
         return Matrix(result_data)
+
+    def to_scalar(self):
+        if self.rows == 1 and self.cols == 1:
+            return self.data[0][0]
+        raise ValueError("Matrix is not 1x1")
 
     def multiplication(self, other):
         """
