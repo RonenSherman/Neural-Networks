@@ -6,9 +6,9 @@ from tensorflow.keras.datasets import mnist
 
 """NN attempt without NumPY - MNIST dataset"""
 
-# Creates an Object-Oriented Neuron class
+# Object-Oriented (OOP) Neuron class
 class SigmoidNeuron:
-    def __init__(self, x, weights, bias, learning_rate=0.1):
+    def __init__(self, x, weights, bias, learning_rate=0.05):  # reduced LR from 0.1 → 0.05
         self.x = Matrix([x]) if isinstance(x[0], (int, float)) else Matrix(x)
         self.weights = weights if isinstance(weights, Matrix) else Matrix(weights)
         self.bias = float(bias)
@@ -23,12 +23,13 @@ class SigmoidNeuron:
         return 0.5 * (y_true - y_prediction) ** 2
 
     def train_step(self, y_true):
+        # Backpropagation and Gradient Descent to train the neurons
         y_prediction = self.output_function()
         error = y_prediction - y_true
         sigmoid_derivative = y_prediction * (1 - y_prediction)
         d_cost_d_linear = error * sigmoid_derivative
 
-        # gradient shape must match weights
+        # gradient shape has to match weights
         d_weights = Matrix([[self.x.data[0][i] * d_cost_d_linear] for i in range(self.x.cols)])
         d_bias = d_cost_d_linear
 
@@ -76,21 +77,31 @@ class Network:
         return hidden_outputs, final_outputs
 
     def train_step(self, input_vector, y_true_vector):
+        #  Forward pass
         hidden_outputs, final_outputs = self.forward(input_vector)
 
-        # Output layer
-        output_errors = []
+        # Output
+        output_deltas = []
         for i, neuron in enumerate(self.output_layer):
-            y_prediction, cost = neuron.train_step(y_true_vector[i])
-            output_errors.append(y_prediction - y_true_vector[i])
+            y_prediction = final_outputs[i]
+            error = y_prediction - y_true_vector[i]
+            delta = error * y_prediction * (1 - y_prediction)  # sigmoid derivative
+            output_deltas.append(delta)
+            # Update output weights
+            for j in range(len(hidden_outputs)):
+                neuron.weights.data[j][0] -= neuron.learning_rate * delta * hidden_outputs[j]
+            neuron.bias -= neuron.learning_rate * delta
 
-        # Hidden layer
+        # Hidden Layers
         for j, hidden_neuron in enumerate(self.hidden_layer):
-            error_from_outputs = sum(
-                output_errors[k] * self.output_layer[k].weights.data[j][0]
-                for k in range(self.output_size)
-            )
-            hidden_neuron.train_step(error_from_outputs)
+            hidden_output = hidden_outputs[j]
+            error = sum(output_deltas[k] * self.output_layer[k].weights.data[j][0]
+                        for k in range(self.output_size))
+            delta = error * hidden_output * (1 - hidden_output)
+            # Update hidden weights
+            for i in range(len(input_vector)):
+                hidden_neuron.weights.data[i][0] -= hidden_neuron.learning_rate * delta * input_vector[i]
+            hidden_neuron.bias -= hidden_neuron.learning_rate * delta
 
         return final_outputs
 
@@ -105,13 +116,13 @@ X_train = X_train.reshape(-1, 784) / 255.0
 X_test = X_test.reshape(-1, 784) / 255.0
 
 # creating the network
-NN = Network(784, 15, 10)
+NN = Network(784, 64, 10)
 
 # training loop
-EPOCHS = 10
-SAMPLES = 5000
+EPOCHS = 10 # Means one full run through of the network
+SAMPLES = 1000 # how many samples trained in each epoch
 
-# stopwatch to test efficiency
+# stopwatch start
 start_time = time.perf_counter()
 
 for epoch in range(EPOCHS):
@@ -121,7 +132,7 @@ for epoch in range(EPOCHS):
         y_true[Y_train[i]] = 1
         NN.train_step(x, y_true)
 
-# testing accuracy
+    # testing accuracy
     correct = 0
     for i in range(500):
         prediction = NN.predict(list(X_test[i]))
