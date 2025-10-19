@@ -4,11 +4,11 @@ import time
 import numpy as np
 from tensorflow.keras.datasets import mnist
 
-"""NN attempt WITH NumPY - MNIST dataset"""
+"""Improved NN with SGD, full MNIST dataset, and fixed timing"""
 
-# Object-Oriented (OOP) Neuron class
+#  Sigmoid Neuron
 class SigmoidNeuron:
-    def __init__(self, x, weights, bias, learning_rate=0.05):  # reduced LR from 0.1 → 0.05
+    def __init__(self, x, weights, bias, learning_rate=0.05):
         self.x = np.array(x, ndmin=2)
         self.weights = np.array(weights, ndmin=2)
         self.bias = float(bias)
@@ -18,19 +18,16 @@ class SigmoidNeuron:
         linear_output = (self.x @ self.weights + self.bias).item()
         return 1 / (1 + math.exp(-linear_output))  # sigmoid
 
-
     def cost(self, y_true):
         y_prediction = self.output_function()
         return 0.5 * (y_true - y_prediction) ** 2
 
     def train_step(self, y_true):
-        # Backpropagation and Gradient Descent to train the neurons
         y_prediction = self.output_function()
         error = y_prediction - y_true
         sigmoid_derivative = y_prediction * (1 - y_prediction)
         d_cost_d_linear = error * sigmoid_derivative
 
-        # gradient shape has to match weights
         d_weights = np.array([[self.x[0, i] * d_cost_d_linear] for i in range(self.x.shape[1])])
         d_bias = d_cost_d_linear
 
@@ -40,6 +37,7 @@ class SigmoidNeuron:
         return y_prediction, self.cost(y_true)
 
 
+#  Network
 class Network:
     def __init__(self, input_size, hidden_size, output_size):
         self.input_size = input_size
@@ -78,28 +76,26 @@ class Network:
         return hidden_outputs, final_outputs
 
     def train_step(self, input_vector, y_true_vector):
-        # Forward pass
         hidden_outputs, final_outputs = self.forward(input_vector)
 
-        # Output layer
+        # Output layer backprop
         output_deltas = []
         for i, neuron in enumerate(self.output_layer):
-            y_prediction = final_outputs[i]
-            error = y_prediction - y_true_vector[i]
-            delta = error * y_prediction * (1 - y_prediction)  # sigmoid derivative
+            y_pred = final_outputs[i]
+            error = y_pred - y_true_vector[i]
+            delta = error * y_pred * (1 - y_pred)
             output_deltas.append(delta)
-            # Update output weights
+
             for j in range(len(hidden_outputs)):
                 neuron.weights[j, 0] -= neuron.learning_rate * delta * hidden_outputs[j]
             neuron.bias -= neuron.learning_rate * delta
 
-        # Hidden layer
+        # Hidden layer backprop
         for j, hidden_neuron in enumerate(self.hidden_layer):
             hidden_output = hidden_outputs[j]
             error = sum(output_deltas[k] * self.output_layer[k].weights[j, 0]
                         for k in range(self.output_size))
             delta = error * hidden_output * (1 - hidden_output)
-            # Update hidden weights
             for i in range(len(input_vector)):
                 hidden_neuron.weights[i, 0] -= hidden_neuron.learning_rate * delta * input_vector[i]
             hidden_neuron.bias -= hidden_neuron.learning_rate * delta
@@ -108,39 +104,42 @@ class Network:
 
     def predict(self, input_vector):
         _, outputs = self.forward(input_vector)
-        return outputs.index(max(outputs))
+        return np.argmax(outputs)
 
 
-# MNIST
+#  Load MNIST
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 X_train = X_train.reshape(-1, 784) / 255.0
 X_test = X_test.reshape(-1, 784) / 255.0
 
-# creating the network
+# Combine into list of tuples for shuffling
+training_data = list(zip(X_train, Y_train))
+
+#  Training
 NN = Network(784, 64, 10)
-
-# training loop
-EPOCHS = 10  # Means one full run through of the network
-SAMPLES = 1000  # how many samples trained in each epoch
-
-# stopwatch start
-start_time = time.perf_counter()
+EPOCHS = 10
+BATCH_SIZE = 32  # typical small batch for SGD
 
 for epoch in range(EPOCHS):
-    for i in range(SAMPLES):
-        x = list(X_train[i])
-        y_true = [0] * 10
-        y_true[Y_train[i]] = 1
-        NN.train_step(x, y_true)
+    start_time = time.perf_counter()
 
-    # testing accuracy
+    random.shuffle(training_data)  # key step for SGD randomness
+
+    # Loop through mini-batches
+    for batch_start in range(0, len(training_data), BATCH_SIZE):
+        batch = training_data[batch_start:batch_start + BATCH_SIZE]
+        for x, y_label in batch:
+            y_true = [0] * 10
+            y_true[y_label] = 1
+            NN.train_step(x, y_true)
+
+    # Evaluate after each epoch
     correct = 0
-    for i in range(500):
+    for i in range(len(X_test)):  # test on all 10,000
         prediction = NN.predict(list(X_test[i]))
         if prediction == Y_test[i]:
             correct += 1
-    accuracy = (correct / 500) * 100
-    end_time = time.perf_counter()
-    duration = end_time - start_time
-    print(f"Epoch {epoch + 1}/{EPOCHS} — Test Accuracy: {accuracy:.2f}%"
-          + " Elapsed time: " + str(round(duration, 3)) + " seconds")
+
+    accuracy = (correct / len(X_test)) * 100
+    elapsed = time.perf_counter() - start_time
+    print(f"Epoch {epoch + 1}/{EPOCHS} — Test Accuracy: {accuracy:.2f}% — Time: {elapsed:.2f}s")
