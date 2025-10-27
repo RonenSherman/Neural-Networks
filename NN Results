@@ -1,0 +1,11 @@
+results for NeuralNetwork.py
+Epoch 1/10 — Test Accuracy: 93.02% — Time: 771.13s
+Epoch 2/10 — Test Accuracy: 94.36% — Time: 807.10s
+Epoch 3/10 — Test Accuracy: 94.97% — Time: 792.27s
+Epoch 4/10 — Test Accuracy: 95.58% — Time: 789.35s
+Epoch 5/10 — Test Accuracy: 95.77% — Time: 773.02s
+ Epoch 6/10 — Test Accuracy: 96.03% — Time: 795.23s
+Epoch 7/10 — Test Accuracy: 96.22% — Time: 763.87s
+Epoch 8/10 — Test Accuracy: 96.52% — Time: 765.66s
+Epoch 9/10 — Test Accuracy: 96.41% — Time: 777.41s
+Epoch 10/10 — Test Accuracy: 96.64% — Time: 768.39s
