@@ -4,7 +4,7 @@ import time
 import numpy as np
 from tensorflow.keras.datasets import mnist
 
-"""Improved NN with SGD, full MNIST dataset, and fixed timing"""
+"""NN with numpy, sgd and full dataset"""
 
 #  Sigmoid Neuron
 class SigmoidNeuron:
@@ -81,9 +81,9 @@ class Network:
         # Output layer backprop
         output_deltas = []
         for i, neuron in enumerate(self.output_layer):
-            y_pred = final_outputs[i]
-            error = y_pred - y_true_vector[i]
-            delta = error * y_pred * (1 - y_pred)
+            y_prediction = final_outputs[i]
+            error = y_prediction - y_true_vector[i]
+            delta = error * y_prediction * (1 - y_prediction)
             output_deltas.append(delta)
 
             for j in range(len(hidden_outputs)):
