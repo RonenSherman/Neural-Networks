@@ -75,7 +75,7 @@ for epoch in range(EPOCHS):
             y_true[y_label] = 1
             NN.train_step(x, y_true)
 
-    # Evaluate after each epoch
+    # Evaluate after each epoch//
     correct = 0
     for i in range(len(X_test)):  # test on all 10,000
         prediction = NN.predict(list(X_test[i]))
