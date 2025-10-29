@@ -9,3 +9,15 @@ Epoch 7/10 — Test Accuracy: 96.22% — Time: 763.87s
 Epoch 8/10 — Test Accuracy: 96.52% — Time: 765.66s
 Epoch 9/10 — Test Accuracy: 96.41% — Time: 777.41s
 Epoch 10/10 — Test Accuracy: 96.64% — Time: 768.39s
+
+Results for VecterizedNN.py
+Epoch 1/10 — Test Accuracy: 88.19% — Time: 2.28s
+Epoch 2/10 — Test Accuracy: 90.44% — Time: 2.47s
+Epoch 3/10 — Test Accuracy: 91.56% — Time: 2.29s
+Epoch 4/10 — Test Accuracy: 92.20% — Time: 2.30s
+Epoch 5/10 — Test Accuracy: 92.81% — Time: 2.38s
+Epoch 6/10 — Test Accuracy: 93.38% — Time: 2.28s
+Epoch 7/10 — Test Accuracy: 93.74% — Time: 2.21s
+Epoch 8/10 — Test Accuracy: 93.98% — Time: 2.31s
+Epoch 9/10 — Test Accuracy: 94.26% — Time: 2.31s
+Epoch 10/10 — Test Accuracy: 94.60% — Time: 2.24s
