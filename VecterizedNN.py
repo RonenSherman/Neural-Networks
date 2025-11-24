@@ -1,9 +1,9 @@
 import time
 import numpy as np
 from tensorflow.keras.datasets import mnist
-
+"""Ronen Sherman - Project 1, learning hand drawn numbers with NN"""
 """Finished NN with vectorization and softmax function instead of sigmoid"""
-"""MNIST dataset - all 60,000 samples"""
+"""MNIST dataset - all 60,000 samples (had some help from dad on this one) """
 
 # Activation functions
 def sigmoid(z):
@@ -13,7 +13,7 @@ def sigmoid_derivative(a):
     return a * (1 - a)
 
 def softmax(z):
-    exp_z = np.exp(z - np.max(z, axis=0, keepdims=True))  # numerical stability
+    exp_z = np.exp(z - np.max(z, axis=0, keepdims=True))
     return exp_z / np.sum(exp_z, axis=0, keepdims=True)
 
 # Network
@@ -39,7 +39,7 @@ class Network:
         m = X.shape[1]  # batch size
 
         # Softmax + Cross-Entropy derivative
-        dZ2 = A2 - Y
+        dZ2 = A2 - Y 
         dW2 = (1 / m) * np.dot(dZ2, A1.T)
         db2 = (1 / m) * np.sum(dZ2, axis=1, keepdims=True)
 
@@ -66,9 +66,9 @@ X_test = X_test.reshape(-1, 784).T / 255.0    # (784, 10000)
 Y_train_oh = np.eye(10)[Y_train].T  # (10, 60000)
 
 # Training
-NN = Network(784, 64, 10, learning_rate=0.05)
-EPOCHS = 10
-BATCH_SIZE = 32
+NN = Network(784, 64, 10, learning_rate=3.0)
+EPOCHS = 30
+BATCH_SIZE = 10
 
 num_samples = X_train.shape[1]
 
