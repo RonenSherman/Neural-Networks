@@ -13,7 +13,7 @@ class Network(nn.Module):
             nn.Linear(32, 2)
         )
 
-def forward(self, x):
+    def forward(self, x):
         return torch.softmax(self.layers(x), dim=-1)
 
 
