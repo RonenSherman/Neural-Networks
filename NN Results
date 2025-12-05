@@ -22,7 +22,7 @@ Epoch 8/10 — Test Accuracy: 93.98% — Time: 2.31s
 Epoch 9/10 — Test Accuracy: 94.26% — Time: 2.31s
 Epoch 10/10 — Test Accuracy: 94.60% — Time: 2.24s
 
-results for PytorchCNN-MNIST.py - run on my home pc to have faster computing
+results for PytorchCNN-MNIST.py - run on my home pc to have faster computing (school laptop sucks)
 Epoch 1 complete — Time: 17.06s
 Epoch 2 complete — Time: 33.12s
 Epoch 3 complete — Time: 49.02s
@@ -30,7 +30,7 @@ Epoch 4 complete — Time: 65.00s
 Epoch 5 complete — Time: 80.85s
 Accuracy: 99.04%
 
-results for Gymnasium.py (with cartpole)
+results for CartPole.py (with cartpole)
 Episode 0  |  Reward = 18.0
 Episode 1  |  Reward = 21.0
 Episode 2  |  Reward = 13.0
