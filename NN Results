@@ -4,23 +4,45 @@ Epoch 2/10 — Test Accuracy: 94.36% — Time: 807.10s
 Epoch 3/10 — Test Accuracy: 94.97% — Time: 792.27s
 Epoch 4/10 — Test Accuracy: 95.58% — Time: 789.35s
 Epoch 5/10 — Test Accuracy: 95.77% — Time: 773.02s
- Epoch 6/10 — Test Accuracy: 96.03% — Time: 795.23s
+Epoch 6/10 — Test Accuracy: 96.03% — Time: 795.23s
 Epoch 7/10 — Test Accuracy: 96.22% — Time: 763.87s
 Epoch 8/10 — Test Accuracy: 96.52% — Time: 765.66s
 Epoch 9/10 — Test Accuracy: 96.41% — Time: 777.41s
 Epoch 10/10 — Test Accuracy: 96.64% — Time: 768.39s
 
 Results for VecterizedNN.py - Gets to 96% if run with 30 epochs
-Epoch 1/10 — Test Accuracy: 88.19% — Time: 2.28s
-Epoch 2/10 — Test Accuracy: 90.44% — Time: 2.47s
-Epoch 3/10 — Test Accuracy: 91.56% — Time: 2.29s
-Epoch 4/10 — Test Accuracy: 92.20% — Time: 2.30s
-Epoch 5/10 — Test Accuracy: 92.81% — Time: 2.38s
-Epoch 6/10 — Test Accuracy: 93.38% — Time: 2.28s
-Epoch 7/10 — Test Accuracy: 93.74% — Time: 2.21s
-Epoch 8/10 — Test Accuracy: 93.98% — Time: 2.31s
-Epoch 9/10 — Test Accuracy: 94.26% — Time: 2.31s
-Epoch 10/10 — Test Accuracy: 94.60% — Time: 2.24s
+Epoch 1/30 — Test Accuracy: 91.52% — Time: 4.91s
+Epoch 2/30 — Test Accuracy: 93.09% — Time: 3.67s
+Epoch 3/30 — Test Accuracy: 92.39% — Time: 3.65s
+Epoch 4/30 — Test Accuracy: 94.06% — Time: 3.10s
+Epoch 5/30 — Test Accuracy: 94.15% — Time: 4.07s
+Epoch 6/30 — Test Accuracy: 93.65% — Time: 3.14s
+Epoch 7/30 — Test Accuracy: 94.83% — Time: 3.09s
+Epoch 8/30 — Test Accuracy: 94.66% — Time: 3.08s
+Epoch 9/30 — Test Accuracy: 95.05% — Time: 3.06s
+Epoch 10/30 — Test Accuracy: 94.67% — Time: 3.08s
+Epoch 11/30 — Test Accuracy: 95.01% — Time: 3.20s
+Epoch 12/30 — Test Accuracy: 94.60% — Time: 3.12s
+Epoch 13/30 — Test Accuracy: 95.86% — Time: 3.09s
+Epoch 14/30 — Test Accuracy: 95.15% — Time: 3.16s
+Epoch 15/30 — Test Accuracy: 96.11% — Time: 3.08s
+Epoch 16/30 — Test Accuracy: 95.19% — Time: 3.39s
+Epoch 17/30 — Test Accuracy: 94.98% — Time: 3.13s
+Epoch 18/30 — Test Accuracy: 95.94% — Time: 3.02s
+Epoch 19/30 — Test Accuracy: 95.66% — Time: 3.35s
+Epoch 20/30 — Test Accuracy: 95.90% — Time: 3.04s
+Epoch 21/30 — Test Accuracy: 95.96% — Time: 3.05s
+Epoch 22/30 — Test Accuracy: 95.67% — Time: 3.03s
+Epoch 23/30 — Test Accuracy: 95.73% — Time: 3.03s
+Epoch 24/30 — Test Accuracy: 96.15% — Time: 3.19s
+Epoch 25/30 — Test Accuracy: 96.35% — Time: 3.13s
+Epoch 26/30 — Test Accuracy: 95.34% — Time: 3.08s
+Epoch 27/30 — Test Accuracy: 96.04% — Time: 3.07s
+Epoch 28/30 — Test Accuracy: 95.87% — Time: 3.04s
+Epoch 29/30 — Test Accuracy: 96.07% — Time: 3.96s
+Epoch 30/30 — Test Accuracy: 96.28% — Time: 3.32s
+
+
 
 results for PytorchCNN-MNIST.py - run on my home pc to have faster computing (school laptop sucks)
 Epoch 1 complete — Time: 17.06s
